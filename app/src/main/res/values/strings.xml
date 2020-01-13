@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">SDA Assign4_2019</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_ragment">One string</string>
+    <string name="images_desc">Book Thumb</string>
+    <string name="plc_author">Edgar Rice Burroughs</string>
+    <string name="plc_title">Tarzan and the Golden Lion</string>
+    <string name="border">border item</string>
+    <string name="check_out">Check Out</string>
+    <string name="library">library</string>
+    <string name="clear">Clear</string>
+    <string name="save_details">Save Details</string>
+    <string name="borrower_id">Borrower ID</string>
+    <string name="email_address">Email address</string>
+    <string name="borrower_name">Borrower Name</string>
+</resources>
