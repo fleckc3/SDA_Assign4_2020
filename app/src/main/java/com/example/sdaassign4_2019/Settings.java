@@ -65,13 +65,58 @@ public class Settings extends Fragment {
         userId = root.findViewById(R.id.borrowerID);
         userId.setText(prefs.getString(USER_ID_KEY, ""));
 
+        //save button for user data
+        final Button saveUserData = root.findViewById(R.id.button);
+        saveUserData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                //text that tells what user to check if input is faulty
+                String snackMessage = "";
+
+                //check user name input
+                String userInputName;
+                boolean checkName;
+                Log.i(TAG, "borrower name textview empty: " + userName.getText().toString().isEmpty());
+
+                //check if input field is null or blank
+                if (userName.getText().toString().isEmpty() || userName.getText().toString().equals(" ")) {
+                    //if passes this test, input is blank
+                    checkName = false;
+                    String nameMessage = " Borrower Name. ";
+                    snackMessage = snackMessage + nameMessage;
+                } else {
+                    //set the input in userInputName variable if it passes the 1st check
+                    userInputName = userName.getText().toString();
+
+                    Log.i(TAG, "value of userInputName variable: " + userInputName);
+
+                    //check if input is the same as what is saved in shared preferences
+                    if (userInputName != prefs.getString(USER_NAME_KEY, "")) {
+
+                        //if not same then it sets the input to be saved by shared preferences
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString(USER_NAME_KEY, userInputName);
+                        editor.apply();
+
+                        userName.setText(userInputName);
+                    }
+                    checkName = true;
+                }
+                Log.i(TAG, "snackMessage = " + snackMessage);
+
+                if(checkName == false){
+                    Snackbar snackbar = Snackbar.make(v, "" + snackMessage, Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+        });
 
         return root;
     }
 
 
 
-    
+
 
 }
