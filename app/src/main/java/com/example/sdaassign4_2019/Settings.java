@@ -136,23 +136,28 @@ public class Settings extends Fragment {
                     }
                 }
 
+                String userInputId;
+                boolean checkId;
+                if(userId.getText().toString().isEmpty() || userId.getText().toString().equals(" ")){
+                    checkId = false;
+                    String idMessage = " Borrower ID ";
+                    snackMessage = snackMessage + idMessage;
+                } else {
+                    userInputId = userId.getText().toString();
+                    if(userInputId != prefs.getString(USER_ID_KEY, "")){
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString(USER_ID_KEY, userInputId);
+                        editor.apply();
 
+                        userId.setText(userInputId);
+                    }
+                    checkId = true;
+                }
 
+                Log.i(TAG, "current snackMessage value: " + snackMessage);
+                
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-                if(checkName == false || checkEmail == false){
+                if(checkName == false || checkEmail == false || checkId == false){
                     Snackbar snackbar = Snackbar.make(v, "" + snackMessage, Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
