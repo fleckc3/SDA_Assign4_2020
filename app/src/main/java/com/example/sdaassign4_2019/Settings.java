@@ -105,7 +105,54 @@ public class Settings extends Fragment {
                 }
                 Log.i(TAG, "snackMessage = " + snackMessage);
 
-                if(checkName == false){
+
+                //check user email input
+                String userInputEmail;
+                String validateEmail;
+                boolean checkEmail;
+
+                if(userEmail.getText().toString().isEmpty() || userEmail.getText().toString().equals(" ")) {
+                    checkEmail = false;
+                    String emailMessage = " Email Address. ";
+                    snackMessage = snackMessage + emailMessage;
+                } else {
+                    validateEmail = userEmail.getText().toString().trim();
+                    Log.i(TAG, "check email validate function result: " + isValidEmail(validateEmail));
+                    if (isValidEmail(validateEmail)) {
+                        checkEmail = true;
+                        userInputEmail = userEmail.getText().toString();
+                        if (userInputEmail != prefs.getString(USER_EMAIL_KEY, "")) {
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putString(USER_EMAIL_KEY, userInputEmail);
+                            editor.apply();
+
+                            userEmail.setText(userInputEmail);
+                        }
+
+                    } else {
+                        checkEmail = false;
+                        String emailMessage = " Email Address. ";
+                        snackMessage = snackMessage + emailMessage;
+                    }
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                if(checkName == false || checkEmail == false){
                     Snackbar snackbar = Snackbar.make(v, "" + snackMessage, Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
@@ -114,6 +161,20 @@ public class Settings extends Fragment {
 
         return root;
     }
+
+    public final static boolean isValidEmail(String email) {
+        boolean validate;
+        String checkEmail = email;
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
+        if(checkEmail.matches(emailPattern)) {
+            validate = true;
+        } else {
+            validate = false;
+        }
+        return validate;
+    }
+
 
 
 
