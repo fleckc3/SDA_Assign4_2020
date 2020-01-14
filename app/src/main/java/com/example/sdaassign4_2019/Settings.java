@@ -155,14 +155,41 @@ public class Settings extends Fragment {
                 }
 
                 Log.i(TAG, "current snackMessage value: " + snackMessage);
-                
+
 
                 if(checkName == false || checkEmail == false || checkId == false){
                     Snackbar snackbar = Snackbar.make(v, "" + snackMessage, Snackbar.LENGTH_LONG);
+                    View sbView = snackbar.getView();
+                    TextView tv = sbView.findViewById(com.google.android.material.R.id.snackbar_text);
+                    Spannable inputToCheck = new SpannableString("Please check the following: " + "\n" + snackMessage);
+                    inputToCheck.setSpan(new ForegroundColorSpan(Color.RED), 28, inputToCheck.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    tv.setText(inputToCheck);
+                    snackbar.show();
+
+                } else {
+                    Snackbar snackbar = Snackbar.make(v,"Details saved successfully", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
+
             }
         });
+
+        final Button clearData = root.findViewById(R.id.clearButton);
+        clearData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString(USER_NAME_KEY, "");
+                editor.putString(USER_EMAIL_KEY, "");
+                editor.putString(USER_ID_KEY,"");
+                editor.apply();
+
+                userName.setText("");
+                userEmail.setText("");
+                userId.setText("");
+            }
+        });
+
 
         return root;
     }
@@ -180,6 +207,14 @@ public class Settings extends Fragment {
         return validate;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putString(USER_NAME_KEY, userName.getText().toString());
+        outState.putString(USER_EMAIL_KEY, userEmail.getText().toString());
+        outState.putString(USER_ID_KEY, userId.getText().toString());
+        Log.i(TAG, "onSaveInstanceState: " + outState);
+    }
 
 
 
