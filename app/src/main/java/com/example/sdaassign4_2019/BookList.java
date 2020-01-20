@@ -1,20 +1,40 @@
 package com.example.sdaassign4_2019;
 
 
+import android.app.ProgressDialog;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -25,13 +45,14 @@ import java.util.Objects;
  * @author Chris Coughlan
  */
 public class BookList extends Fragment {
+    private static final String TAG = "BookList";
+    public  final ArrayList<Book> bookData = new ArrayList<>();
+    DatabaseReference db;
 
 
     public BookList() {
         // Required empty public constructor
     }
-
-    ViewPageAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,39 +62,36 @@ public class BookList extends Fragment {
 
         RecyclerView recyclerView = root.findViewById(R.id.bookView_view);
 
-        //add array for each item
-        ArrayList<String> mAuthor = new ArrayList<>();
-        ArrayList<String> mTitle = new ArrayList<>();
-        ArrayList<Integer> mImageID = new ArrayList<>();
-
-        //simple loop here to add the images to the array without typing each one
-        for(int i=1;i<=14;i++) {
-            int id = getResources().getIdentifier("sku1000" + i, "drawable",
-                    root.getContext().getPackageName());
-            mImageID.add(id);
-        }
-
-        //adding author and title.
-        mAuthor.add("Edgar Rice Burroughs"); mTitle.add("Tarzan and the Golden Lion");
-        mAuthor.add("Agatha Christie"); mTitle.add("The Murder on the Links");
-        mAuthor.add("Winston S. Churchill"); mTitle.add("The World Crisis");
-        mAuthor.add("E.e. cummings"); mTitle.add("Tulips and Chimneys");
-        mAuthor.add("Robert Frost"); mTitle.add("New Hampshire");
-        mAuthor.add("Kahlil Gibran"); mTitle.add("The Prophet");
-        mAuthor.add("Aldous Huxley"); mTitle.add("Antic Hay");
-        mAuthor.add("D.H. Lawrence"); mTitle.add("Kangaroo");
-        mAuthor.add("Bertrand and Dora Russell"); mTitle.add("The Prospects of Industrial Civilization");
-        mAuthor.add("Carl Sandberg"); mTitle.add("Rootabaga Pigeons");
-        mAuthor.add("Edith Wharton"); mTitle.add("A Son at the Front");
-        mAuthor.add("P.G. Wodehouse"); mTitle.add("The Inimitable Jeeves");
-        mAuthor.add("P.G. Wodehouse"); mTitle.add("Leave it to Psmith");
-        mAuthor.add("Viginia Woolf"); mTitle.add("Jacob's Room");
-
-        LibraryViewAdapter recyclerViewAdapter = new LibraryViewAdapter(getContext(), mAuthor, mTitle, mImageID);
+        final LibraryViewAdapter recyclerViewAdapter = new LibraryViewAdapter(getContext(), bookData);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
+        db = FirebaseDatabase.getInstance().getReference().child("book");
+        db.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+
+                    String author = snapshot.getValue(Book.class).getAuthor();
+                    String title = snapshot.getValue(Book.class).getTitle();
+                    String url = snapshot.getValue(Book.class).getImageUrl();
+                    boolean available = snapshot.getValue(Book.class).getAvailability();
+                    bookData.add(new Book(author, title, url, available));
+
+                }
+                recyclerViewAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
 
         return root;
     }
 
+
 }
+

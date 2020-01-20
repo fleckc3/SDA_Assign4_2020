@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -48,7 +49,7 @@ public class Settings extends Fragment {
                              Bundle savedInstanceState) {
 
         //shared preference instance used to save user data input
-        final SharedPreferences prefs = getActivity().getPreferences(MODE_PRIVATE);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 
          // Inflate the layout for this fragment
         final View root = inflater.inflate(R.layout.fragment_settings, container, false);
