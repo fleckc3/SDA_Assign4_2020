@@ -57,6 +57,7 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
 
 
 
+
     LibraryViewAdapter(Context mNewContext, ArrayList<Book> bookData) {
         this.mNewContext = mNewContext;
         this.bookData = bookData;
@@ -77,7 +78,6 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
 
         viewHolder.authorText.setText(bookData.get(position).getAuthor());
         viewHolder.titleText.setText(bookData.get(position).getTitle());
-        //viewHolder.imageItem.setImageResource(mImageID.get(position));
 
         Glide.with(viewHolder.imageItem.getContext())
                 .load(bookData.get(position).getImageUrl())
@@ -85,34 +85,44 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
                 .into(viewHolder.imageItem);
 
 
-        //should check here to see if the book is available.
+
+        //checkout onclick listener method
         viewHolder.checkOut.setOnClickListener(new View.OnClickListener() {
+            /**
+             * onClick method opens the checkout activity if specific validation is met.
+             *
+             * @param v
+             */
             @Override
             public void onClick(View v){
+                //get shared preferences for whole application
                 final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mNewContext);
 
+                //String variable used to see if there is user name saved in shared pref
                 String checkString = prefs.getString("USER_NAME_KEY", "");
                 Log.i(TAG, "onClick: " + checkString);
 
+                //check to see if checkString is not empty
                 if (!checkString.isEmpty()){
                     Toast.makeText(mNewContext, bookData.get(position).getTitle(), Toast.LENGTH_SHORT).show();
-                    //...
 
+                    //creates intent to open the checkout activity. Followed by the bundle passed to target class
                     Intent myOrder = new Intent(mNewContext, CheckOut.class);
                     Bundle extras = new Bundle();
-
                     String title = bookData.get(position).getTitle();
-                    // boolean available = bookData.get(position).getAvailability();
+                    boolean availability = bookData.get(position).getAvailability();
                     Log.i(TAG, "onClick: " + title);
-                   // Log.i(TAG, "onClick: " + available);
+                    Log.i(TAG, "onClick: " + availability);
 
-                    boolean availableTest = true;
+                    //add data to bundle
+                    extras.putString("title", title);
+                    extras.putBoolean("availability", availability);
 
-                    Log.i(TAG, "onClick: " + availableTest);
-                    myOrder.putExtra("title", title);
-                    myOrder.putExtra("availability", availableTest);
+                    //add bundle to intent
+                    myOrder.putExtras(extras);
                     mNewContext.startActivity(myOrder);
                 } else {
+                    //alerts user that no user data has been saved
                     Snackbar snackbar = Snackbar.make(v, "Please go to the Settings tab and enter your Borrower details", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }

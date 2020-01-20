@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.View;
@@ -18,6 +19,8 @@ import java.util.Locale;
 public class CheckOut extends AppCompatActivity {
 
     TextView mDisplaySummary;
+    TextView confirmBookName;
+    TextView bookAvailable;
     Calendar mDateAndTime = Calendar.getInstance();
 
     @Override
@@ -28,6 +31,24 @@ public class CheckOut extends AppCompatActivity {
         //set the toolbar we have overridden
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //recieves the intent data from the libraryViewAdapter
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+
+        //Gets book title and sets in the TextView field
+        String title = extras.getString("title");
+        confirmBookName = findViewById(R.id.confirmName);
+        confirmBookName.setText("Check out " + title);
+
+        //Gets the boolean availability and uses it to let user know if book is available or not
+        boolean available = extras.getBoolean("availability", true);
+        bookAvailable = findViewById(R.id.availability);
+        if(available){
+            bookAvailable.setText("This book is available.");
+        } else {
+            bookAvailable.setText("This book is not available at this time.");
+        }
 
         //find the summary textview
         mDisplaySummary = findViewById(R.id.orderSummary);
