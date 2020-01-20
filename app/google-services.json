@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "586929056168",
+    "firebase_url": "https://assign4-colin-fleck.firebaseio.com",
+    "project_id": "assign4-colin-fleck",
+    "storage_bucket": "assign4-colin-fleck.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:586929056168:android:87513ef81bd9053b07d59d",
+        "android_client_info": {
+          "package_name": "com.example.sdaassign4_2019"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "586929056168-8sdhl4lpj2df4ueq2ek5h4kgu52p1qff.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sdaassign4_2019",
+            "certificate_hash": "187184db22276f5ef6d7e9de0a1f5ebdfa1107cc"
+          }
+        },
+        {
+          "client_id": "586929056168-qq6725umue54n7s4s1qigb98jn2b8lic.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjTfiyb0cSbTjay4MGmot4uuUMBgNOv4Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "586929056168-qq6725umue54n7s4s1qigb98jn2b8lic.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
