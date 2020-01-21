@@ -8,12 +8,15 @@ public class Book {
     private String title;
     private String author;
     private String imageUrl;
-    private boolean availability;
+    private boolean available;
 
-    public Book(String title, String author, String imageUrl, Boolean availability){
+
+    public Book(String title, String author, String imageUrl, Boolean available){
         this.title = title;
         this.author = author;
         this.imageUrl = imageUrl;
+        this.available = available;
+
     }
 
 
@@ -27,9 +30,11 @@ public class Book {
 
     public String getImageUrl() { return imageUrl; }
 
-    public boolean getAvailability() { return availability; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
-    public void setAvailability(boolean availability) { this.availability = availability; }
+    public boolean getAvailable() { return available; }
+
+    public void setAvailable(boolean available) { this.available = available; }
 
 
 

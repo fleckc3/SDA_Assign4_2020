@@ -32,6 +32,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -97,15 +98,18 @@ public class BookList extends Fragment {
                 //loops though the data in DB with ref book
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     //grabs the author, title, imageUrl, availability via help from the JOVO Book.class
+
                     String author = snapshot.getValue(Book.class).getAuthor();
                     String title = snapshot.getValue(Book.class).getTitle();
                     String url = snapshot.getValue(Book.class).getImageUrl();
-                    boolean available = snapshot.getValue(Book.class).getAvailability();
+                    boolean available = snapshot.getValue(Book.class).getAvailable();
+                    Log.i(TAG, "boolean: " + available);
 
                     //add the data from the database and put into the bookData list object
                     bookData.add(new Book(title, author, url, available));
+                    //Notify the recyclerView that new data has been set
+
                 }
-                //Notify the recyclerView that new data has been set
                 recyclerViewAdapter.notifyDataSetChanged();
             }
 

@@ -15,4 +15,7 @@
     <string name="borrower_id">Borrower ID</string>
     <string name="email_address">Email address</string>
     <string name="borrower_name">Borrower Name</string>
+    <string name="book_not_available">This book is not available at this time.</string>
+    <string name="book_is_available">This book is available.</string>
+    <string name="check_out_book">Check out:</string>
 </resources>

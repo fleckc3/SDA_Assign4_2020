@@ -76,8 +76,9 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         Log.d(TAG, "onBindViewHolder: was called");
 
-        viewHolder.authorText.setText(bookData.get(position).getAuthor());
         viewHolder.titleText.setText(bookData.get(position).getTitle());
+        viewHolder.authorText.setText(bookData.get(position).getAuthor());
+
 
         Glide.with(viewHolder.imageItem.getContext())
                 .load(bookData.get(position).getImageUrl())
@@ -104,19 +105,19 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
 
                 //check to see if checkString is not empty
                 if (!checkString.isEmpty()){
-                    Toast.makeText(mNewContext, bookData.get(position).getTitle(), Toast.LENGTH_SHORT).show();
-
                     //creates intent to open the checkout activity. Followed by the bundle passed to target class
                     Intent myOrder = new Intent(mNewContext, CheckOut.class);
                     Bundle extras = new Bundle();
                     String title = bookData.get(position).getTitle();
-                    boolean availability = bookData.get(position).getAvailability();
+                    boolean availability = bookData.get(position).getAvailable();
                     Log.i(TAG, "onClick: " + title);
                     Log.i(TAG, "onClick: " + availability);
 
                     //add data to bundle
                     extras.putString("title", title);
                     extras.putBoolean("availability", availability);
+
+                    Toast.makeText(mNewContext, bookData.get(position).getTitle(), Toast.LENGTH_SHORT).show();
 
                     //add bundle to intent
                     myOrder.putExtras(extras);
