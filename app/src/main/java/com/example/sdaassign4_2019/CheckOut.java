@@ -5,9 +5,11 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
@@ -15,10 +17,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 public class CheckOut extends AppCompatActivity {
     private static final String TAG = "CheckOut";
@@ -28,6 +27,7 @@ public class CheckOut extends AppCompatActivity {
     Button sendOrder;
     Button selectDate;
     Calendar mDateAndTime = Calendar.getInstance();
+    public String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,8 @@ public class CheckOut extends AppCompatActivity {
         //set the toolbar we have overridden
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //finds the send and date buttons
         sendOrder = findViewById(R.id.orderButton);
         selectDate = findViewById(R.id.date);
 
@@ -46,7 +48,7 @@ public class CheckOut extends AppCompatActivity {
         Bundle extras = intent.getExtras();
 
         //Gets book title and sets in the TextView field
-        String title = extras.getString("title");
+        title = extras.getString("title");
         Log.i(TAG, "onCreate: " + title);
 
         confirmBookName = findViewById(R.id.confirmName);
@@ -56,8 +58,10 @@ public class CheckOut extends AppCompatActivity {
         boolean available = extras.getBoolean("availability", true);
         bookAvailable = findViewById(R.id.availability);
         if(available){
+            //sets text that book is available
             bookAvailable.setText(getResources().getString(R.string.book_is_available));
         } else {
+            //book not available so buttons are greyed out
             bookAvailable.setText(getResources().getString(R.string.book_not_available));
             sendOrder.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
             sendOrder.setTextColor(Color.LTGRAY);
@@ -97,7 +101,17 @@ public class CheckOut extends AppCompatActivity {
         //date time year
         CharSequence currentTime = DateUtils.formatDateTime(this, mDateAndTime.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME);
         CharSequence SelectedDate = DateUtils.formatDateTime(this, mDateAndTime.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR);
-        String finalSummary = SelectedDate + " current time is " + currentTime;
-        mDisplaySummary.setText(finalSummary);
+        String checkOutDate = "Check out date set for: " + SelectedDate;
+
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        String borrowerName = prefs.getString("USER_NAME_KEY", "");
+        String borrowerId = prefs.getString("USER_ID_KEY", "");
+        String bookName = title;
+
+        mDisplaySummary.setText("Borrower name: " + borrowerName + "\n" + "Borrower ID: " + borrowerId + "\n" + "Book title: " + bookName);
+    }
+
+    private void updateDB() {
+        
     }
 }
