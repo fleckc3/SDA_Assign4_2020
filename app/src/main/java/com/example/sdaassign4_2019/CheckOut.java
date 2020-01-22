@@ -1,5 +1,7 @@
 package com.example.sdaassign4_2019;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -19,6 +21,9 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -26,13 +31,17 @@ import java.util.Date;
 
 public class CheckOut extends AppCompatActivity {
     private static final String TAG = "CheckOut";
+    private DatabaseReference db;
     TextView mDisplaySummary;
     TextView confirmBookName;
     TextView bookAvailable;
     Button sendOrder;
     Button selectDate;
     Calendar mDateAndTime = Calendar.getInstance();
+    String currentDate;
     String mReturnDate;
+    String borrowerId;
+    String finalSelectedDate;
     public String title;
     String topicKey;
     String dateReq;
@@ -85,23 +94,44 @@ public class CheckOut extends AppCompatActivity {
 
         //find the summary textview
         mDisplaySummary = findViewById(R.id.orderSummary);
-
+        db = FirebaseDatabase.getInstance().getReference().child("order");
         sendOrder.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 if(updateDateAndTimeDisplay() == null){
                     Snackbar snackbar = Snackbar.make(v, "Please select a date to check the book out.", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 } else {
+                    DatabaseReference newOrderRef = db.push();
+                    SimpleDateFormat dateTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                    Date getCurrentDate = new Date();
+                    currentDate = dateTime.format(getCurrentDate);
 
 
-
+                    newOrderRef.setValue((new Order(title, borrowerId, finalSelectedDate, currentDate, mReturnDate)),
+                            new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                            if(databaseError !=  null){
+                                Snackbar snackbar = Snackbar.make(v, "Order was not saved, please try again." + "\n" + databaseError.getMessage(), Snackbar.LENGTH_LONG);
+                                snackbar.show();
+                            } else {
+                                Snackbar snackbar = Snackbar.make(v, "Order made successfully.", Snackbar.LENGTH_LONG);
+                                snackbar.show();
+                                sendOrder.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                                sendOrder.setTextColor(Color.LTGRAY);
+                                sendOrder.setClickable(false);
+                            }
+                        }
+                    });
 
 
 
                 }
             }
         });
+
+
     }
 
     //source SDA_2019 android course examples ViewGroup demo
@@ -134,7 +164,7 @@ public class CheckOut extends AppCompatActivity {
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String borrowerName = prefs.getString("USER_NAME_KEY", "");
-        String borrowerId = prefs.getString("USER_ID_KEY", "");
+        borrowerId = prefs.getString("USER_ID_KEY", "");
         String bookName = title;
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -142,7 +172,7 @@ public class CheckOut extends AppCompatActivity {
         Calendar newCalendar = Calendar.getInstance();
         newCalendar.setTime(theSelectedDate);
         Date selectedDateFormatted =newCalendar.getTime();
-        String finalSelectedDate = dateFormat.format(selectedDateFormatted);
+        finalSelectedDate = dateFormat.format(selectedDateFormatted);
 
         int twoWeeks = 14;
         mDateAndTime.add(Calendar.DAY_OF_YEAR, twoWeeks);
@@ -150,11 +180,7 @@ public class CheckOut extends AppCompatActivity {
         mReturnDate = dateFormat.format(reDate);
         Log.i(TAG, "onDateSet: " + mReturnDate);
 
-        SimpleDateFormat dateTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Date getCurrentDate = new Date();
-        String currentDate = dateTime.format(getCurrentDate);
-
-        mDisplaySummary.setText("Borrower name: " + borrowerName + "\n" + "Borrower ID: " + borrowerId + "\n" + "Book title: " + bookName + "\n" + "Today's date: " + currentDate + "\n" + "Date selected: " + finalSelectedDate + "\n" + "Date to return: " + mReturnDate);
+        mDisplaySummary.setText("Borrower name: " + borrowerName + "\n" + "Borrower ID: " + borrowerId + "\n" + "Book title: " + bookName + "\n"  + "Date selected: " + finalSelectedDate + "\n" + "Date to return: " + mReturnDate);
         return selectedDate;
     }
 
