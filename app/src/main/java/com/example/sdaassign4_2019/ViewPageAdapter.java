@@ -7,9 +7,18 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-/*
- * viewPager adapter.
+/**
+ * viewPager adapter adapted from the assignment 4 zip folder.
+ * Adapts the view so that the three fragments are shown in tabbed
+ * layout with tab navigation features as well
+ *
+ * references:
+ *  *        - https://developer.android.com/docs
+ *
  * @author Chris Coughlan 2019
+ *
+ * Reapplied to this project without any changes by:
+ *                          - Colin Fleck - colin.fleck3@mail.dcu.ie
  */
 public class ViewPageAdapter extends FragmentPagerAdapter {
 

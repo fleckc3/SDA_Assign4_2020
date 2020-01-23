@@ -20,7 +20,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
-            android:text="Welcome to DCU's Book reservation app."
+            android:text="@string/welcome_message"
+            android:textAlignment="center"
+            android:textColor="#97BE64"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +36,9 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:text="Book drop-off opens from 9am to 14:00 every day"
+            android:text="@string/book_drop_off_times"
+            android:textColor="#00C853"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/welcomeText" />
@@ -42,15 +46,16 @@
         <ImageView
             android:id="@+id/welcomeImage"
             android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
             android:contentDescription="@string/library"
-            android:src="@drawable/welcome"
+            android:src="@drawable/reading_tree"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/officeHours" />
+            app:layout_constraintTop_toBottomOf="@+id/officeHours"
+            app:layout_constraintVertical_bias="0.236" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

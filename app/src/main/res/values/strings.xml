@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SDA Assign4_2019</string>
+    <string name="app_name">Learning Tree Book Club</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -35,4 +35,6 @@
     <string name="date_selected_summaryMessage">Date selected:</string>
     <string name="return_date_summaryMessage">Date to return:</string>
     <string name="return_policy_summaryMessage">(14 day return policy)</string>
+    <string name="welcome_message">Welcome to the Learning Tree Book Club</string>
+    <string name="book_drop_off_times">Book drop-off from 9am to 14:00 every day</string>
 </resources>

@@ -14,8 +14,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <!-- Following two activity objects allow the user to go back from
+        the checkOut activity to the bookList fragment. Reference:
+        http://androiddhina.blogspot.com/2015/02/android-back-from-child-activity.html -->
+        <activity android:name=".BookList"
+            android:launchMode="singleTop"
+            android:parentActivityName=".MainActivity">
+        </activity>
         <activity android:name=".CheckOut"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".BookList">
+        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

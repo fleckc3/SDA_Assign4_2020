@@ -55,6 +55,10 @@ import java.util.Date;
  * A date selector provides the rest of the data for the order. The order is then sent to
  * firebase database with relevant data
  *
+ * references:
+ *        - https://developer.android.com/docs
+ *        - https://firebase.google.com/docs
+ *
  * @author Colin Fleck - colin.fleck3@mail.dcu.ie
  * @version 1
  */
@@ -137,6 +141,9 @@ public class CheckOut extends AppCompatActivity {
             bookAvailable.setText(getResources().getString(R.string.book_not_available));
             sendOrder.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
             sendOrder.setTextColor(Color.LTGRAY);
+
+            //onClickListener overrides setClickable(false) so had to change it setEnabled(false)
+            //reference: https://stackoverflow.com/questions/6812730/setenabled-setclickable-not-working/8241321
             sendOrder.setEnabled(false);
 
             //select date grayed out
@@ -199,6 +206,7 @@ public class CheckOut extends AppCompatActivity {
                                 snackbar.show();
 
                                 //grays out send order button
+                                //ref: https://stackoverflow.com/questions/8743120/how-to-grey-out-a-button
                                 sendOrder.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
                                 sendOrder.setTextColor(Color.LTGRAY);
                                 sendOrder.setClickable(false);
@@ -263,7 +271,9 @@ public class CheckOut extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                //If selected date is after or same as today's date, set date to mDateAndTime
+                /* If selected date is after or same as today's date, set date to mDateAndTime
+                 * reference: https://stackoverflow.com/questions/19109960/how-to-check-if-a-date-is-greater-than-another-in-java
+                 */
                 if(selected.after(current) || selected.equals(current)){
                     mDateAndTime.set(Calendar.YEAR, year);
                     mDateAndTime.set(Calendar.MONTH, monthOfYear);
@@ -278,6 +288,7 @@ public class CheckOut extends AppCompatActivity {
                 }
             }
         };
+
         //brings up the calendar widget
         new DatePickerDialog(CheckOut.this, mDateListener,
                 mDateAndTime.get(Calendar.YEAR),
@@ -315,6 +326,7 @@ public class CheckOut extends AppCompatActivity {
         Log.i(TAG, "updateDateAndTimeDisplay: " + finalSelectedDate);
 
         //add two weeks to selected date to get the return date
+        //reference: https://stackoverflow.com/questions/23307324/how-do-i-add-2-weeks-to-a-date-in-java/38959426
         int twoWeeks = 14;
         mDateAndTime.add(Calendar.DAY_OF_YEAR, twoWeeks);
         Date reDate = mDateAndTime.getTime();

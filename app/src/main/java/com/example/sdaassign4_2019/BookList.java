@@ -39,6 +39,11 @@ import java.util.ArrayList;
  * is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License.
  *  - Images are stored on the Firebase DB and retrieved here in this fragment view
  *  - This Fragment class was adapted from the Assignment 4 project zip file
+ *
+ *  references:
+ *         - https://developer.android.com/docs
+ *         - https://firebase.google.com/docs
+ *
  * A simple {@link Fragment} subclass.
  * @author Colin Fleck - colin.fleck3@mail.dcu.ie
  * @version 1
@@ -89,6 +94,9 @@ public class BookList extends Fragment {
              * OnDataChange method checks the database for any new data and updates
              * the bookDaata object with the current data
              * @param dataSnapshot takes a json snapshot of firebase db ref to book
+             *
+             *      ref: - https://www.youtube.com/watch?v=18Td7PH_1r8
+             *           - SDA course text: CH. 16
              */
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

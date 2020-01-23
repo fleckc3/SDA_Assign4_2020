@@ -41,6 +41,9 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
  * SharedPreferences.
  *
  * Adapted from the Assignment 4 project zip folder prov
+ * references:
+ *         - https://developer.android.com/docs
+ *         - https://firebase.google.com/docs
  *
  * @author Colin Fleck - colin.fleck3@mail.dcu.ie
  * @version 1

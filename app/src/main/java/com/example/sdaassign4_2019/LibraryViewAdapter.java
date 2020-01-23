@@ -46,11 +46,21 @@ import java.util.ArrayList;
 import static android.content.Context.MODE_PRIVATE;
 
 /**
- * LibraryViewAdapter recieves the data from the firebase data based on Book object
+ * LibraryViewAdapter receives the data from the firebase data based on Book object.
+ * Book object is initialised and passed to recyclerView vie the BookList fragment.
+ * This class was adapted from the Assignement 4 project zip folder.
  *
+ * references:
+ *         - SDA course text
+ *         - https://developer.android.com/docs
+ *         - https://firebase.google.com/docs
+ *
+ * @Author Colin Fleck - colin.fleck3@mail.dcu.ie
+ * @version 1
  */
 public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.ViewHolder> {
     private static final String TAG = "RecyclerViewAdapter";
+
     //context and book data object variables declared
     private Context mNewContext;
     private ArrayList<Book> bookData;
@@ -116,6 +126,7 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
                 if (!checkString.isEmpty()){
 
                     //creates intent to open the checkout activity. Followed by the bundle passed to target class
+                    //ref: https://www.dev2qa.com/passing-data-between-activities-android-tutorial/
                     Intent myOrder = new Intent(mNewContext, CheckOut.class);
                     Bundle extras = new Bundle();
 
@@ -126,6 +137,7 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
                     Log.i(TAG, "onClick: " + availability);
 
                     //add title and availability to bundle
+                    // https://zocada.com/using-intents-extras-pass-data-activities-android-beginners-guide/
                     extras.putString("title", title);
                     extras.putBoolean("availability", availability);
 
