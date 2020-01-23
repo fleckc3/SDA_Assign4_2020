@@ -45,13 +45,17 @@ public class CheckOut extends AppCompatActivity {
     String mReturnDate;
     String borrowerId;
     String finalSelectedDate;
+    String summary;
+    String summaryKey = "SUMMARY_KEY";
+    boolean dateSelectedCheck;
     public String title;
-    String topicKey;
-    String dateReq;
+
 
 
     /**
-     *
+     *This onCreate method declares the textviews and buttons used to select a date and
+     * create an order that is saved in the DB. This view recieves data from the recyclerview
+     * according to which book item is chosen to checkout.
      * @param savedInstanceState
      */
     @Override
@@ -59,6 +63,13 @@ public class CheckOut extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_out);
 
+        /* boolean check to see if date has been selected.
+         * Initialised to false when it is created as this view is used
+         * each time a book is selected to be ordered. This is important so that
+         * the send order button can't be fired using a date that might have been chosen
+         * while creating an order for another book using this same view
+         */
+        dateSelectedCheck = false;
 
         //set the toolbar we have overridden
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -72,6 +83,9 @@ public class CheckOut extends AppCompatActivity {
         sendOrder = findViewById(R.id.orderButton);
         selectDate = findViewById(R.id.date);
 
+        //declares summary textview
+        mDisplaySummary = findViewById(R.id.orderSummary);
+
         //receives the intent data from the libraryViewAdapter
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -80,6 +94,7 @@ public class CheckOut extends AppCompatActivity {
         title = extras.getString("title");
         Log.i(TAG, "onCreate: " + title);
 
+        //intitlaizes title in the textview
         confirmBookName = findViewById(R.id.confirmName);
         confirmBookName.setText(getResources().getString(R.string.check_out_book) + title);
 
@@ -90,69 +105,84 @@ public class CheckOut extends AppCompatActivity {
             //sets text that book is available
             bookAvailable.setText(getResources().getString(R.string.book_is_available));
         } else {
-            //book not available so buttons are greyed out
+            //book not available so buttons are grayed out
             bookAvailable.setText(getResources().getString(R.string.book_not_available));
             sendOrder.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
             sendOrder.setTextColor(Color.LTGRAY);
-            sendOrder.setClickable(false);
+            sendOrder.setEnabled(false);
 
+            //select date grayed out
             selectDate.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
             selectDate.setTextColor(Color.LTGRAY);
             selectDate.setClickable(false);
-
         }
 
-        //find the summary textview
-        mDisplaySummary = findViewById(R.id.orderSummary);
-
-        //Firebase databse instance initialised with reference to the child order
+        //Firebase database instance initialised with reference to the child order
         db = FirebaseDatabase.getInstance().getReference().child("order");
 
-        //send order onclick listener function
-        sendOrder.setOnClickListener(new View.OnClickListener() {
+            //send order onclick listener function
+            sendOrder.setOnClickListener(new View.OnClickListener() {
 
-            /**
-             * OnClick function creates an order entry into the firebase database.
-             * if no date is returned by the updateDateAndDisplay() then user is prompted
-             * to select a date.
-             * @param v is the send order button that is clicked
-             */
-            @Override
-            public void onClick(final View v) {
-                //checks for date selection and if not prompts user to select date
-                if(updateDateAndTimeDisplay() == null){
-                    Snackbar snackbar = Snackbar.make(v, "Please select a date to check the book out.", Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                //if sate selected then proceeds to build order and send to databse
-                } else {
-                    //Firebase DB reference to order with push() - creates automatic id in db
-                    DatabaseReference newOrderRef = db.push();
+                /**
+                 * OnClick function creates an order entry into the firebase database.
+                 * if no date is returned by the updateDateAndDisplay() then user is prompted
+                 * to select a date.
+                 *
+                 * @param v is the send order button that is clicked
+                 */
+                @Override
+                public void onClick(final View v) {
+                    //checks for date selection and if not prompts user to select date
+                    if (!dateSelectedCheck) {
+                        Snackbar snackbar = Snackbar.make(v, "Please select a date to check the book out.", Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                        //if sate selected then proceeds to build order and send to databse
+                    } else {
+                        //Firebase DB reference to order with push() - creates automatic id in db
+                        DatabaseReference newOrderRef = db.push();
 
-                    //follwoing date manipulation lines of code get the current date and time to be used in 
-                    SimpleDateFormat dateTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                    Date getCurrentDate = new Date();
-                    currentDate = dateTime.format(getCurrentDate);
+                        /* following date manipulation lines of code get the current date and time to be used in */
+                        SimpleDateFormat dateTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                        Date getCurrentDate = new Date();
+                        currentDate = dateTime.format(getCurrentDate);
 
-                    newOrderRef.setValue((new Order(title, borrowerId, finalSelectedDate, currentDate, mReturnDate)),
-                            new DatabaseReference.CompletionListener() {
-                        @Override
-                        public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                            if(databaseError !=  null){
-                                Snackbar snackbar = Snackbar.make(v, "Order was not saved, please try again." + "\n" + databaseError.getMessage(), Snackbar.LENGTH_LONG);
-                                snackbar.show();
-                            } else {
-                                Snackbar snackbar = Snackbar.make(v, "Order made successfully.", Snackbar.LENGTH_LONG);
-                                snackbar.show();
-                                sendOrder.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                                sendOrder.setTextColor(Color.LTGRAY);
-                                sendOrder.setClickable(false);
-                                mDisplaySummary.append("\n" + "Order successfully made.");
+                        Log.i(TAG, "selected date: " + finalSelectedDate);
+                        Log.i(TAG, "return date: " + mReturnDate);
+                        Log.i(TAG, "currentDate: " + currentDate );
+
+                        //sets the values to be pushed by the newOrderRef db reference
+                        newOrderRef.setValue((new Order(title, borrowerId, finalSelectedDate, currentDate, mReturnDate)),
+                        new DatabaseReference.CompletionListener() {
+                            /**
+                             * onComplete lisetener checks to make the data was successfuly inserted into
+                             * the DB
+                             * @param databaseError provides DB error occurred while trying to complete
+                             * @param databaseReference provides the reference to the db being listened to
+                             */
+                            @Override
+                            public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                                //if there is db error then alert user
+                                if (databaseError != null) {
+                                    Snackbar snackbar = Snackbar.make(v, "Order was not saved, please try again." + "\n" + databaseError.getMessage(), Snackbar.LENGTH_LONG);
+                                    snackbar.show();
+                                } else {
+                                    //alerts that order was successful
+                                    Snackbar snackbar = Snackbar.make(v, "Order made successfully.", Snackbar.LENGTH_LONG);
+                                    snackbar.show();
+
+                                    //grays out send order button
+                                    sendOrder.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                                    sendOrder.setTextColor(Color.LTGRAY);
+                                    sendOrder.setClickable(false);
+
+                                    //displays order success message in order summary
+                                    mDisplaySummary.append("\n" + "Order successfully made.");
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
-            }
-        });
+            });
     }
 
     /**
@@ -219,8 +249,7 @@ public class CheckOut extends AppCompatActivity {
                 }
             }
         };
-
-
+        //brings up the calendar widget
         new DatePickerDialog(CheckOut.this, mDateListener,
                 mDateAndTime.get(Calendar.YEAR),
                 mDateAndTime.get(Calendar.MONTH),
@@ -241,13 +270,8 @@ public class CheckOut extends AppCompatActivity {
      * @return selectedDate is used in a check statement for the onClick method called when a user
      * presses the sendOrder button
      */
-    private CharSequence updateDateAndTimeDisplay() {
-        //date time year
-        CharSequence selectedDate = DateUtils.formatDateTime(this, mDateAndTime.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR);
-        String stringDate = selectedDate.toString();
-        Log.i(TAG, "updateDateAndTimeDisplay: " + stringDate);
+    private void updateDateAndTimeDisplay() {
 
-        //
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String borrowerName = prefs.getString("USER_NAME_KEY", "");
         borrowerId = prefs.getString("USER_ID_KEY", "");
@@ -257,8 +281,9 @@ public class CheckOut extends AppCompatActivity {
         Date theSelectedDate = mDateAndTime.getTime();
         Calendar newCalendar = Calendar.getInstance();
         newCalendar.setTime(theSelectedDate);
-        Date selectedDateFormatted =newCalendar.getTime();
+        Date selectedDateFormatted = newCalendar.getTime();
         finalSelectedDate = dateFormat.format(selectedDateFormatted);
+        Log.i(TAG, "updateDateAndTimeDisplay: " + finalSelectedDate);
 
         //add two weeks to selected date to get the return date
         int twoWeeks = 14;
@@ -268,8 +293,35 @@ public class CheckOut extends AppCompatActivity {
         Log.i(TAG, "onDateSet: " + mReturnDate);
 
         //order summary
-        mDisplaySummary.setText("Borrower name: " + borrowerName + "\n" + "Borrower ID: " + borrowerId + "\n" + "Book title: " + bookName + "\n"  + "Date selected: " + finalSelectedDate + "\n" + "Date to return: " + mReturnDate + " (14 day return policy)");
-        return selectedDate;
+        summary = "Borrower name: " + borrowerName + "\n" + "Borrower ID: " + borrowerId + "\n" + "Book title: " + bookName + "\n"  + "Date selected: " + finalSelectedDate + "\n" + "Date to return: " + mReturnDate + " (14 day return policy)";
+        mDisplaySummary.setText(summary);
+        dateSelectedCheck = true;
+    }
+
+    /**
+     * This method saves the summary message in case of screen rotation
+     * @param outState is loaded with summary message
+     */
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(summaryKey, summary);
+        Log.i(TAG, "onSaveInstanceState: " + outState);
+    }
+
+    /**
+     * This method used to get onSaveInstanceState after view restored from screen rotation.
+     * This is because of the fragment this activity was started from
+     * reference: https://stackoverflow.com/questions/24075154/how-to-get-data-from-bundle-of-onsaveinstancestate-in-android
+     *
+     * @param savedInstanceState gets the bundle saved from the onSaveInstanceState()
+     */
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Read values from the "savedInstanceState"-object and put them in your textview
+        String restoreSummary = savedInstanceState.getString(summaryKey);
+        mDisplaySummary.setText(restoreSummary);
     }
 
 
