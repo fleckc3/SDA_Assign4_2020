@@ -1,5 +1,21 @@
 package com.example.sdaassign4_2019;
 
+/*
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,8 +48,20 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Checkout class defines a view where user can select a date to order a specific book.
+ * This view opens from the book recyclerView when a user clicks on the checkout button.
+ * Data about that book is passed here to be used in the order details upon checkout.
+ * A date selector provides the rest of the data for the order. The order is then sent to
+ * firebase database with relevant data
+ *
+ * @author Colin Fleck - colin.fleck3@mail.dcu.ie
+ * @version 1
+ */
 public class CheckOut extends AppCompatActivity {
     private static final String TAG = "CheckOut";
+
+    //various variables used throughout class
     private DatabaseReference db;
     TextView mDisplaySummary;
     TextView confirmBookName;
@@ -49,8 +77,6 @@ public class CheckOut extends AppCompatActivity {
     String summaryKey = "SUMMARY_KEY";
     boolean dateSelectedCheck;
     public String title;
-
-
 
     /**
      *This onCreate method declares the textviews and buttons used to select a date and
@@ -120,69 +146,69 @@ public class CheckOut extends AppCompatActivity {
         //Firebase database instance initialised with reference to the child order
         db = FirebaseDatabase.getInstance().getReference().child("order");
 
-            //send order onclick listener function
-            sendOrder.setOnClickListener(new View.OnClickListener() {
+        //send order onclick listener function
+        sendOrder.setOnClickListener(new View.OnClickListener() {
 
-                /**
-                 * OnClick function creates an order entry into the firebase database.
-                 * if no date is returned by the updateDateAndDisplay() then user is prompted
-                 * to select a date.
-                 *
-                 * @param v is the send order button that is clicked
-                 */
-                @Override
-                public void onClick(final View v) {
-                    //checks for date selection and if not prompts user to select date
-                    if (!dateSelectedCheck) {
-                        Snackbar snackbar = Snackbar.make(v, "Please select a date to check the book out.", Snackbar.LENGTH_LONG);
-                        snackbar.show();
-                        //if sate selected then proceeds to build order and send to databse
-                    } else {
-                        //Firebase DB reference to order with push() - creates automatic id in db
-                        DatabaseReference newOrderRef = db.push();
+            /**
+             * OnClick function creates an order entry into the firebase database.
+             * if no date is returned by the updateDateAndDisplay() then user is prompted
+             * to select a date.
+             *
+             * @param v is the send order button that is clicked
+             */
+            @Override
+            public void onClick(final View v) {
+                //checks for date selection and if not prompts user to select date
+                if (!dateSelectedCheck) {
+                    Snackbar snackbar = Snackbar.make(v, "Please select a date to check the book out.", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    //if sate selected then proceeds to build order and send to databse
+                } else {
+                    //Firebase DB reference to order with push() - creates automatic id in db
+                    DatabaseReference newOrderRef = db.push();
 
-                        /* following date manipulation lines of code get the current date and time to be used in */
-                        SimpleDateFormat dateTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                        Date getCurrentDate = new Date();
-                        currentDate = dateTime.format(getCurrentDate);
+                    /* following date manipulation lines of code get the current date and time to be used in */
+                    SimpleDateFormat dateTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                    Date getCurrentDate = new Date();
+                    currentDate = dateTime.format(getCurrentDate);
 
-                        Log.i(TAG, "selected date: " + finalSelectedDate);
-                        Log.i(TAG, "return date: " + mReturnDate);
-                        Log.i(TAG, "currentDate: " + currentDate );
+                    Log.i(TAG, "selected date: " + finalSelectedDate);
+                    Log.i(TAG, "return date: " + mReturnDate);
+                    Log.i(TAG, "currentDate: " + currentDate );
 
-                        //sets the values to be pushed by the newOrderRef db reference
-                        newOrderRef.setValue((new Order(title, borrowerId, finalSelectedDate, currentDate, mReturnDate)),
-                        new DatabaseReference.CompletionListener() {
-                            /**
-                             * onComplete lisetener checks to make the data was successfuly inserted into
-                             * the DB
-                             * @param databaseError provides DB error occurred while trying to complete
-                             * @param databaseReference provides the reference to the db being listened to
-                             */
-                            @Override
-                            public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                                //if there is db error then alert user
-                                if (databaseError != null) {
-                                    Snackbar snackbar = Snackbar.make(v, "Order was not saved, please try again." + "\n" + databaseError.getMessage(), Snackbar.LENGTH_LONG);
-                                    snackbar.show();
-                                } else {
-                                    //alerts that order was successful
-                                    Snackbar snackbar = Snackbar.make(v, "Order made successfully.", Snackbar.LENGTH_LONG);
-                                    snackbar.show();
+                    //sets the values to be pushed by the newOrderRef db reference
+                    newOrderRef.setValue((new Order(title, borrowerId, finalSelectedDate, currentDate, mReturnDate)),
+                    new DatabaseReference.CompletionListener() {
+                        /**
+                         * onComplete lisetener checks to make the data was successfuly inserted into
+                         * the DB
+                         * @param databaseError provides DB error occurred while trying to complete
+                         * @param databaseReference provides the reference to the db being listened to
+                         */
+                        @Override
+                        public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                            //if there is db error then alert user
+                            if (databaseError != null) {
+                                Snackbar snackbar = Snackbar.make(v, "Order was not saved, please try again." + "\n" + databaseError.getMessage(), Snackbar.LENGTH_LONG);
+                                snackbar.show();
+                            } else {
+                                //alerts that order was successful
+                                Snackbar snackbar = Snackbar.make(v, "Order made successfully.", Snackbar.LENGTH_LONG);
+                                snackbar.show();
 
-                                    //grays out send order button
-                                    sendOrder.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-                                    sendOrder.setTextColor(Color.LTGRAY);
-                                    sendOrder.setClickable(false);
+                                //grays out send order button
+                                sendOrder.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                                sendOrder.setTextColor(Color.LTGRAY);
+                                sendOrder.setClickable(false);
 
-                                    //displays order success message in order summary
-                                    mDisplaySummary.append("\n" + "Order successfully made.");
-                                }
+                                //displays order success message in order summary
+                                mDisplaySummary.append("\n" + "Order successfully made.");
                             }
-                        });
-                    }
+                        }
+                    });
                 }
-            });
+            }
+        });
     }
 
     /**

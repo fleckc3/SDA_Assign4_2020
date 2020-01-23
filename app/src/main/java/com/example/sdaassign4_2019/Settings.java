@@ -1,12 +1,25 @@
 package com.example.sdaassign4_2019;
 
+/*
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -17,15 +30,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.google.android.material.snackbar.Snackbar;
-
-import static android.content.Context.MODE_PRIVATE;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 
 /**
  * A simple {@link Fragment} subclass.
+ * This fragment class provides three textviews where a user must enter their details
+ * in order to check a book out. The user details are validated and saved to the apps
+ * SharedPreferences.
+ *
+ * Adapted from the Assignment 4 project zip folder prov
+ *
+ * @author Colin Fleck - colin.fleck3@mail.dcu.ie
+ * @version 1
  */
 public class Settings extends Fragment {
 
@@ -37,13 +55,17 @@ public class Settings extends Fragment {
     //textview variable holders initialized
     private TextView userName, userEmail, userId;
 
-
-
     public Settings() {
         // Required empty public constructor
     }
 
-
+    /**
+     * onCreateView inflates our fragment view
+     * @param inflater sets the fragment layout
+     * @param container sets the container for the view
+     * @param savedInstanceState gets the saved data called by the onSaveInstanceState()
+     * @return the completed fragment view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -69,6 +91,12 @@ public class Settings extends Fragment {
         //save button for user data
         final Button saveUserData = root.findViewById(R.id.button);
         saveUserData.setOnClickListener(new View.OnClickListener() {
+            /**
+             * onClick method called to save data to shared preferences. Has to pass
+             * input validation to be saved properly. user notified by which section textview
+             * there is an error in.
+             * @param v is the save user info button
+             */
             @Override
             public void onClick(View v) {
 
