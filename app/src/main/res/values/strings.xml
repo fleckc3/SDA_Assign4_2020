@@ -17,7 +17,7 @@
     <string name="borrower_name">Borrower Name</string>
     <string name="book_not_available">This book is not available at this time.</string>
     <string name="book_is_available">This book is available.</string>
-    <string name="check_out_book">Check out:</string>
+    <string name="check_out_book">Check out:&#160;</string>
     <string name="Select_book_date">Please select a date to check the book out.</string>
     <string name="order_not_saved">Order was not saved, please try again.</string>
     <string name="order_made_success">Order made successfully.</string>
@@ -25,16 +25,16 @@
     <string name="borrower_name_for_snack">Borrower Name.</string>
     <string name="email_for_snackMessage">Email Address.</string>
     <string name="borrowerId_for_snackMessage">Borrower ID</string>
-    <string name="snackMessage_text">Please check the following:</string>
+    <string name="snackMessage_text">Please check the following:&#160;</string>
     <string name="user_details_saved_correctly">Details saved successfully</string>
     <string name="enter_user_details_snackmessage">Please go to the Settings tab and enter your Borrower details</string>
-    <string name="date_in_past">is in the past.</string>
-    <string name="borrower_name_summaryMessage">Borrower name:</string>
-    <string name="borrower_id_summaryMessage">Borrower ID:</string>
-    <string name="book_title_summaryMessage">Book title:</string>
-    <string name="date_selected_summaryMessage">Date selected:</string>
-    <string name="return_date_summaryMessage">Date to return:</string>
-    <string name="return_policy_summaryMessage">(14 day return policy)</string>
+    <string name="date_in_past">&#160;is in the past.</string>
+    <string name="borrower_name_summaryMessage">Borrower name:&#160;</string>
+    <string name="borrower_id_summaryMessage">Borrower ID:&#160;</string>
+    <string name="book_title_summaryMessage">Book title:&#160;</string>
+    <string name="date_selected_summaryMessage">Date selected:&#160;</string>
+    <string name="return_date_summaryMessage">Date to return:&#160;</string>
+    <string name="return_policy_summaryMessage">&#160;(14 day return policy)</string>
     <string name="welcome_message">Welcome to the Learning Tree Book Club</string>
     <string name="book_drop_off_times">Book drop-off from 9am to 14:00 every day</string>
 </resources>

@@ -55,7 +55,7 @@ import static android.content.Context.MODE_PRIVATE;
  *         - https://developer.android.com/docs
  *         - https://firebase.google.com/docs
  *
- * @Author Colin Fleck - colin.fleck3@mail.dcu.ie
+ * @author Colin Fleck - colin.fleck3@mail.dcu.ie
  * @version 1
  */
 public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.ViewHolder> {

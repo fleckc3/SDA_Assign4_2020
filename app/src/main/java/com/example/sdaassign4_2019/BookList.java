@@ -44,7 +44,10 @@ import java.util.ArrayList;
  *         - https://developer.android.com/docs
  *         - https://firebase.google.com/docs
  *
- * A simple {@link Fragment} subclass.
+ * A simple {@link Fragment} subclass. Creates the booklist fragment. This class
+ * Connects with the firebase database to download the information for each book object.
+ * Each book object is then passed to the recyclerViewAdapter.
+ *
  * @author Colin Fleck - colin.fleck3@mail.dcu.ie
  * @version 1
  * @since
@@ -57,6 +60,9 @@ public class BookList extends Fragment {
     //DB reference for firebase
     DatabaseReference db;
 
+    /**
+     * empty constructor intializes view
+     */
     public BookList() {
         // Required empty public constructor
     }
