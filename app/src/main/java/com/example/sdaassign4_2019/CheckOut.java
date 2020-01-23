@@ -122,6 +122,8 @@ public class CheckOut extends AppCompatActivity {
 
         //intitlaizes title in the textview
         confirmBookName = findViewById(R.id.confirmName);
+
+        //reference: https://stackoverflow.com/questions/7493287/android-how-do-i-get-string-from-resources-using-its-name
         confirmBookName.setText(getResources().getString(R.string.check_out_book) + title);
 
         //Gets the boolean availability and uses it to let user know if book is available or not
@@ -160,9 +162,9 @@ public class CheckOut extends AppCompatActivity {
             public void onClick(final View v) {
                 //checks for date selection and if not prompts user to select date
                 if (!dateSelectedCheck) {
-                    Snackbar snackbar = Snackbar.make(v, "Please select a date to check the book out.", Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(v, getResources().getString(R.string.Select_book_date), Snackbar.LENGTH_LONG);
                     snackbar.show();
-                    //if sate selected then proceeds to build order and send to databse
+                    //if sate selected then proceeds to build order and send to database
                 } else {
                     //Firebase DB reference to order with push() - creates automatic id in db
                     DatabaseReference newOrderRef = db.push();
@@ -180,7 +182,7 @@ public class CheckOut extends AppCompatActivity {
                     newOrderRef.setValue((new Order(title, borrowerId, finalSelectedDate, currentDate, mReturnDate)),
                     new DatabaseReference.CompletionListener() {
                         /**
-                         * onComplete lisetener checks to make the data was successfuly inserted into
+                         * onComplete listener checks to make the data was successful inserted into
                          * the DB
                          * @param databaseError provides DB error occurred while trying to complete
                          * @param databaseReference provides the reference to the db being listened to
@@ -189,11 +191,11 @@ public class CheckOut extends AppCompatActivity {
                         public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
                             //if there is db error then alert user
                             if (databaseError != null) {
-                                Snackbar snackbar = Snackbar.make(v, "Order was not saved, please try again." + "\n" + databaseError.getMessage(), Snackbar.LENGTH_LONG);
+                                Snackbar snackbar = Snackbar.make(v, getResources().getString(R.string.order_not_saved) + "\n" + databaseError.getMessage(), Snackbar.LENGTH_LONG);
                                 snackbar.show();
                             } else {
                                 //alerts that order was successful
-                                Snackbar snackbar = Snackbar.make(v, "Order made successfully.", Snackbar.LENGTH_LONG);
+                                Snackbar snackbar = Snackbar.make(v, getResources().getString(R.string.order_made_success), Snackbar.LENGTH_LONG);
                                 snackbar.show();
 
                                 //grays out send order button
@@ -202,7 +204,7 @@ public class CheckOut extends AppCompatActivity {
                                 sendOrder.setClickable(false);
 
                                 //displays order success message in order summary
-                                mDisplaySummary.append("\n" + "Order successfully made.");
+                                mDisplaySummary.append("\n" + getResources().getString(R.string.order_success_textview));
                             }
                         }
                     });
@@ -229,6 +231,7 @@ public class CheckOut extends AppCompatActivity {
              */
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
+
                 /* Following Date and calendar conversion was adapted from the following references:
                  * https://stackoverflow.com/questions/36265860/java-date-parse-exception
                  * https://attacomsian.com/blog/java-convert-string-to-date
@@ -260,7 +263,7 @@ public class CheckOut extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                //If selected date is after or same as todays date, set date to mDateAndTime
+                //If selected date is after or same as today's date, set date to mDateAndTime
                 if(selected.after(current) || selected.equals(current)){
                     mDateAndTime.set(Calendar.YEAR, year);
                     mDateAndTime.set(Calendar.MONTH, monthOfYear);
@@ -269,9 +272,9 @@ public class CheckOut extends AppCompatActivity {
                     //method updates date data and formulates summary order message
                     updateDateAndTimeDisplay();
 
-                  //if selected is before todays dte then user notified that date is in the past
+                  //if selected is before today's dte then user notified that date is in the past
                 } else if(selected.before(current)) {
-                    Toast.makeText(getApplicationContext(), dateFormat.format(selected) + " is in the past.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), dateFormat.format(selected) + getResources().getString(R.string.date_in_past), Toast.LENGTH_SHORT).show();
                 }
             }
         };
@@ -318,9 +321,16 @@ public class CheckOut extends AppCompatActivity {
         mReturnDate = dateFormat.format(reDate);
         Log.i(TAG, "onDateSet: " + mReturnDate);
 
-        //order summary
-        summary = "Borrower name: " + borrowerName + "\n" + "Borrower ID: " + borrowerId + "\n" + "Book title: " + bookName + "\n"  + "Date selected: " + finalSelectedDate + "\n" + "Date to return: " + mReturnDate + " (14 day return policy)";
+        //order summary text
+        summary = getResources().getString(R.string.borrower_name_summaryMessage) + borrowerName + "\n"
+                + getResources().getString(R.string.borrower_id_summaryMessage) + borrowerId + "\n"
+                + getResources().getString(R.string.book_title_summaryMessage) + bookName + "\n"
+                + getResources().getString(R.string.date_selected_summaryMessage) + finalSelectedDate + "\n"
+                + getResources().getString(R.string.return_date_summaryMessage) + mReturnDate
+                + getResources().getString(R.string.return_policy_summaryMessage);
         mDisplaySummary.setText(summary);
+
+        //boolean value helps with onclick check for the sendOrder button
         dateSelectedCheck = true;
     }
 
@@ -349,6 +359,4 @@ public class CheckOut extends AppCompatActivity {
         String restoreSummary = savedInstanceState.getString(summaryKey);
         mDisplaySummary.setText(restoreSummary);
     }
-
-
 }

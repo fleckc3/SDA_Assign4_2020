@@ -137,7 +137,7 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
                     mNewContext.startActivity(myOrder);
                 } else {
                     //alerts user that no user data has been saved
-                    Snackbar snackbar = Snackbar.make(v, "Please go to the Settings tab and enter your Borrower details", Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(v, mNewContext.getResources().getString(R.string.enter_user_details_snackmessage), Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
             }
@@ -157,7 +157,7 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
     /**
      * view holder class for recycler_list_item.xml
      * declares UI elements to be used and initialized in each
-     * viewholder with data from DB. 
+     * viewholder with data from DB.
      */
     class ViewHolder extends RecyclerView.ViewHolder{
 

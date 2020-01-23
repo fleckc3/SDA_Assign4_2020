@@ -18,4 +18,21 @@
     <string name="book_not_available">This book is not available at this time.</string>
     <string name="book_is_available">This book is available.</string>
     <string name="check_out_book">Check out:</string>
+    <string name="Select_book_date">Please select a date to check the book out.</string>
+    <string name="order_not_saved">Order was not saved, please try again.</string>
+    <string name="order_made_success">Order made successfully.</string>
+    <string name="order_success_textview">Order successfully made.</string>
+    <string name="borrower_name_for_snack">Borrower Name.</string>
+    <string name="email_for_snackMessage">Email Address.</string>
+    <string name="borrowerId_for_snackMessage">Borrower ID</string>
+    <string name="snackMessage_text">Please check the following:</string>
+    <string name="user_details_saved_correctly">Details saved successfully</string>
+    <string name="enter_user_details_snackmessage">Please go to the Settings tab and enter your Borrower details</string>
+    <string name="date_in_past">is in the past.</string>
+    <string name="borrower_name_summaryMessage">Borrower name:</string>
+    <string name="borrower_id_summaryMessage">Borrower ID:</string>
+    <string name="book_title_summaryMessage">Book title:</string>
+    <string name="date_selected_summaryMessage">Date selected:</string>
+    <string name="return_date_summaryMessage">Date to return:</string>
+    <string name="return_policy_summaryMessage">(14 day return policy)</string>
 </resources>
