@@ -407,11 +407,7 @@ public class CheckOut extends AppCompatActivity {
         title = restoreTitle;
         finalSelectedDate = restoreSelectedDate;
 
-
         //Summary restored to what they were before
         mDisplaySummary.setText(restoreSummary);
-
-
-
     }
 }
