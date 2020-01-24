@@ -80,11 +80,18 @@ public class CheckOut extends AppCompatActivity {
     String borrowerId;
     String finalSelectedDate;
     String summary;
+    boolean dateSelectedCheck;
+    public String title;
+
+    //keys for onRestorInstanceState()
     String summaryKey = "SUMMARY_KEY";
     String selectedDateKey = "SELECTED_DATE_KEY";
-    boolean dateSelectedCheck;
-    String dateSelectecCheckKey = "SELECTED_BOOLEAN_KEY";
-    public String title;
+    String borrowerIdKey = "BORROWER_ID_KEY";
+    String returnDateKey = "RETURN_DATE_KEY";
+    String currentDateKey = "currentDateKey";
+    String dateSelectedCheckKey = "SELECTED_BOOLEAN_KEY";
+    String titleKey = "TITLE_KEY";
+
 
     /**
      *This onCreate method declares the textviews and buttons used to select a date and
@@ -190,6 +197,7 @@ public class CheckOut extends AppCompatActivity {
                     Log.i(TAG, "selected date: " + finalSelectedDate);
                     Log.i(TAG, "return date: " + mReturnDate);
                     Log.i(TAG, "currentDate: " + currentDate );
+
 
                     //sets the values to be pushed by the newOrderRef db reference
                     newOrderRef.setValue((new Order(title, borrowerId, finalSelectedDate, currentDate, mReturnDate)),
@@ -359,9 +367,15 @@ public class CheckOut extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+
+        //Saving needed data to persist through a screen rotation, onPause(), and onStop()
         outState.putString(summaryKey, summary);
         outState.putString(selectedDateKey, finalSelectedDate);
-        outState.putBoolean(dateSelectecCheckKey, dateSelectedCheck);
+        outState.putBoolean(dateSelectedCheckKey, dateSelectedCheck);
+        outState.putString(borrowerIdKey, borrowerId);
+        outState.putString(returnDateKey, mReturnDate);
+        outState.putString(currentDateKey, currentDate);
+        outState.putString(titleKey, title);
         Log.i(TAG, "onSaveInstanceState: " + outState);
     }
 
@@ -379,24 +393,25 @@ public class CheckOut extends AppCompatActivity {
         // Read values from the savedInstanceState object using their keys
         String restoreSummary = savedInstanceState.getString(summaryKey);
         String restoreSelectedDate = savedInstanceState.getString(selectedDateKey);
-        boolean checkDateIsSelected = savedInstanceState.getBoolean(dateSelectecCheckKey);
+        boolean checkDateIsSelected = savedInstanceState.getBoolean(dateSelectedCheckKey);
+        String restoreBorrowerId = savedInstanceState.getString(borrowerIdKey);
+        String restoreTitle = savedInstanceState.getString(titleKey);
+        String restoreCurrentDate = savedInstanceState.getString(currentDateKey);
+        String restoreReturnDate = savedInstanceState.getString(returnDateKey);
 
-        //gets date selected in widget in string form then converts it to date
-        //ref: https://examples.javacodegeeks.com/core-java/text/parseexception/java-text-parseexception-how-to-solve-parseexception/
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date restoreDate = new Date();
-        try {
-            restoreDate = dateFormat.parse(restoreSelectedDate);
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        //sets the date selected boolean to what it was before the screen rotation or pause
+        //order data restored
         dateSelectedCheck = checkDateIsSelected;
+        mReturnDate = restoreReturnDate;
+        currentDate = restoreCurrentDate;
+        borrowerId = restoreBorrowerId;
+        title = restoreTitle;
+        finalSelectedDate = restoreSelectedDate;
 
-        //Date and summary restored to what they were before
-        mDateAndTime.setTime(restoreDate);
+
+        //Summary restored to what they were before
         mDisplaySummary.setText(restoreSummary);
+
+
+
     }
 }
