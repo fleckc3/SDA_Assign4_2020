@@ -28,7 +28,7 @@
     <string name="snackMessage_text">Please check the following:&#160;</string>
     <string name="user_details_saved_correctly">Details saved successfully</string>
     <string name="enter_user_details_snackmessage">Please go to the Settings tab and enter your Borrower details</string>
-    <string name="date_in_past">&#160;is in the past.</string>
+    <string name="date_in_past">&#160;&#160;is in the past!</string>
     <string name="borrower_name_summaryMessage">Borrower name:&#160;</string>
     <string name="borrower_id_summaryMessage">Borrower ID:&#160;</string>
     <string name="book_title_summaryMessage">Book title:&#160;</string>

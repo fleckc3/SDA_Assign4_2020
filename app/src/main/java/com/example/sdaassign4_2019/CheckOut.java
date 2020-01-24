@@ -81,6 +81,7 @@ public class CheckOut extends AppCompatActivity {
     String finalSelectedDate;
     String summary;
     boolean dateSelectedCheck;
+    boolean sendOrderCheck = false;
     public String title;
 
     //keys for onRestorInstanceState()
@@ -88,10 +89,10 @@ public class CheckOut extends AppCompatActivity {
     String selectedDateKey = "SELECTED_DATE_KEY";
     String borrowerIdKey = "BORROWER_ID_KEY";
     String returnDateKey = "RETURN_DATE_KEY";
-    String currentDateKey = "currentDateKey";
+    String currentDateKey = "CURRENT_DAY_KEY";
     String dateSelectedCheckKey = "SELECTED_BOOLEAN_KEY";
     String titleKey = "TITLE_KEY";
-
+    String sendOrderCheckKey = "SEND_ORDER_KEY";
 
     /**
      *This onCreate method declares the textviews and buttons used to select a date and
@@ -227,6 +228,9 @@ public class CheckOut extends AppCompatActivity {
 
                                 //displays order success message in order summary
                                 mDisplaySummary.append("\n" + getResources().getString(R.string.order_success_textview));
+
+                                //boolean used for onRestoreInstanceState() to check the state of the send order button
+                                sendOrderCheck = true;
                             }
                         }
                     });
@@ -298,7 +302,10 @@ public class CheckOut extends AppCompatActivity {
 
                   //if selected is before today's dte then user notified that date is in the past
                 } else if(selected.before(current)) {
-                    Toast.makeText(getApplicationContext(), dateFormat.format(selected) + getResources().getString(R.string.date_in_past), Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(getApplicationContext(), dateFormat.format(selected) + getResources().getString(R.string.date_in_past), Toast.LENGTH_SHORT);
+                    View sbView = toast.getView();
+                    sbView.setBackgroundColor(Color.parseColor("#CCFF90"));
+                    toast.show();
                 }
             }
         };
@@ -376,6 +383,7 @@ public class CheckOut extends AppCompatActivity {
         outState.putString(returnDateKey, mReturnDate);
         outState.putString(currentDateKey, currentDate);
         outState.putString(titleKey, title);
+        outState.putBoolean(sendOrderCheckKey, sendOrderCheck);
         Log.i(TAG, "onSaveInstanceState: " + outState);
     }
 
@@ -393,21 +401,32 @@ public class CheckOut extends AppCompatActivity {
         // Read values from the savedInstanceState object using their keys
         String restoreSummary = savedInstanceState.getString(summaryKey);
         String restoreSelectedDate = savedInstanceState.getString(selectedDateKey);
-        boolean checkDateIsSelected = savedInstanceState.getBoolean(dateSelectedCheckKey);
         String restoreBorrowerId = savedInstanceState.getString(borrowerIdKey);
         String restoreTitle = savedInstanceState.getString(titleKey);
         String restoreCurrentDate = savedInstanceState.getString(currentDateKey);
         String restoreReturnDate = savedInstanceState.getString(returnDateKey);
+        boolean restoreDateIsSelected = savedInstanceState.getBoolean(dateSelectedCheckKey);
+        boolean restoreSendOrderButton = savedInstanceState.getBoolean(sendOrderCheckKey);
 
         //order data restored
-        dateSelectedCheck = checkDateIsSelected;
+        dateSelectedCheck = restoreDateIsSelected;
         mReturnDate = restoreReturnDate;
         currentDate = restoreCurrentDate;
         borrowerId = restoreBorrowerId;
         title = restoreTitle;
         finalSelectedDate = restoreSelectedDate;
 
-        //Summary restored to what they were before
+        //Summary message and send order button restored to what they were before
         mDisplaySummary.setText(restoreSummary);
+        sendOrderCheck = restoreSendOrderButton;
+
+        //greys out send order button if the boolean passed to savedInstanceState is true
+        if(sendOrderCheck){
+            //grays out send order button
+            //ref: https://stackoverflow.com/questions/8743120/how-to-grey-out-a-button
+            sendOrder.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+            sendOrder.setTextColor(Color.LTGRAY);
+            sendOrder.setClickable(false);
+        }
     }
 }
