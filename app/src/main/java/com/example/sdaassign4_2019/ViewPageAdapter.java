@@ -29,6 +29,11 @@ public class ViewPageAdapter extends FragmentPagerAdapter {
         context = nContext;
     }
 
+    /**
+     * Fragment class helps user navigate between fragments in the tabbed view
+     * @param position gets the int postion associated with the fragment currently in view
+     * @return the fragment to be shown
+     */
     @NonNull
     @Override
     public Fragment getItem(int position) {
@@ -58,11 +63,20 @@ public class ViewPageAdapter extends FragmentPagerAdapter {
         return fragment;
     }
 
+    /**
+     * returns the amount of fragments and tabs to allow
+     * @return
+     */
     @Override
     public int getCount() {
         return 3;
     }
 
+    /**
+     * the method gets the title of the fragment based off the position and sets its name in the tabs bar
+     * @param position
+     * @return
+     */
     @Override
     public CharSequence getPageTitle(int position) {
         position = position+1;
