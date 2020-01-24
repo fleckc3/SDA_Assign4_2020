@@ -19,6 +19,7 @@ package com.example.sdaassign4_2019;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -142,7 +143,10 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
                     extras.putBoolean("availability", availability);
 
                     //alerts user of the book being selected to checkout
-                    Toast.makeText(mNewContext, bookData.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(mNewContext, bookData.get(position).getTitle(), Toast.LENGTH_SHORT);
+                    View view = toast.getView();
+                    view.setBackgroundColor(Color.parseColor("#CCFF90"));
+                    toast.show();
 
                     //add title and book availability bundle to intent
                     myOrder.putExtras(extras);

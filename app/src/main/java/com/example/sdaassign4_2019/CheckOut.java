@@ -48,6 +48,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
+import static java.time.LocalDate.parse;
+
 /**
  * Checkout class defines a view where user can select a date to order a specific book.
  * This view opens from the book recyclerView when a user clicks on the checkout button.
@@ -79,7 +81,9 @@ public class CheckOut extends AppCompatActivity {
     String finalSelectedDate;
     String summary;
     String summaryKey = "SUMMARY_KEY";
+    String selectedDateKey = "SELECTED_DATE_KEY";
     boolean dateSelectedCheck;
+    String dateSelectecCheckKey = "SELECTED_BOOLEAN_KEY";
     public String title;
 
     /**
@@ -139,6 +143,7 @@ public class CheckOut extends AppCompatActivity {
         } else {
             //book not available so buttons are grayed out
             bookAvailable.setText(getResources().getString(R.string.book_not_available));
+            sendOrder.setBackgroundColor(Color.WHITE);
             sendOrder.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
             sendOrder.setTextColor(Color.LTGRAY);
 
@@ -147,6 +152,7 @@ public class CheckOut extends AppCompatActivity {
             sendOrder.setEnabled(false);
 
             //select date grayed out
+            selectDate.setBackgroundColor(Color.WHITE);
             selectDate.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
             selectDate.setTextColor(Color.LTGRAY);
             selectDate.setClickable(false);
@@ -354,6 +360,8 @@ public class CheckOut extends AppCompatActivity {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(summaryKey, summary);
+        outState.putString(selectedDateKey, finalSelectedDate);
+        outState.putBoolean(dateSelectecCheckKey, dateSelectedCheck);
         Log.i(TAG, "onSaveInstanceState: " + outState);
     }
 
@@ -367,8 +375,28 @@ public class CheckOut extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        // Read values from the "savedInstanceState"-object and put them in your textview
+
+        // Read values from the savedInstanceState object using their keys
         String restoreSummary = savedInstanceState.getString(summaryKey);
+        String restoreSelectedDate = savedInstanceState.getString(selectedDateKey);
+        boolean checkDateIsSelected = savedInstanceState.getBoolean(dateSelectecCheckKey);
+
+        //gets date selected in widget in string form then converts it to date
+        //ref: https://examples.javacodegeeks.com/core-java/text/parseexception/java-text-parseexception-how-to-solve-parseexception/
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date restoreDate = new Date();
+        try {
+            restoreDate = dateFormat.parse(restoreSelectedDate);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        //sets the date selected boolean to what it was before the screen rotation or pause
+        dateSelectedCheck = checkDateIsSelected;
+
+        //Date and summary restored to what they were before
+        mDateAndTime.setTime(restoreDate);
         mDisplaySummary.setText(restoreSummary);
     }
 }

@@ -37,4 +37,6 @@
     <string name="return_policy_summaryMessage">&#160;(14 day return policy)</string>
     <string name="welcome_message">Welcome to the Learning Tree Book Club</string>
     <string name="book_drop_off_times">Book drop-off from 9am to 14:00 every day</string>
+    <string name="send_order_button">Send Order</string>
+    <string name="select_date_button">Select Date</string>
 </resources>
