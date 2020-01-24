@@ -17,14 +17,14 @@ package com.example.sdaassign4_2019;
  */
 
 /**
- * Book POJO class used to set and get book details to be used in recyclerView
+ * <pre>Book POJO class used to set and get book details to be used in recyclerView
  *
  * references:
  *        - https://developer.android.com/docs
  *        - https://firebase.google.com/docs
  *
  * @author Colin Fleck - colin.fleck3@mail.dcu.ie
- * @version 1
+ * @version 1</pre>
  */
 public class Book {
 

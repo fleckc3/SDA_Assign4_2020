@@ -8,17 +8,18 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 /**
- * viewPager adapter adapted from the assignment 4 zip folder.
+ * <pre>viewPager adapter adapted from the assignment 4 zip folder.
  * Adapts the view so that the three fragments are shown in tabbed
- * layout with tab navigation features as well
+ * layout with tab navigation features as well.
  *
  * references:
  *  *        - https://developer.android.com/docs
  *
- * @author Chris Coughlan 2019
+ * Original @author Chris Coughlan 2019
  *
  * Reapplied to this project without any changes by:
  *                          - Colin Fleck - colin.fleck3@mail.dcu.ie
+ *                          </pre>
  */
 public class ViewPageAdapter extends FragmentPagerAdapter {
 
@@ -30,9 +31,9 @@ public class ViewPageAdapter extends FragmentPagerAdapter {
     }
 
     /**
-     * Fragment class helps user navigate between fragments in the tabbed view
-     * @param position gets the int postion associated with the fragment currently in view
-     * @return the fragment to be shown
+     * <pre>Fragment class helps user navigate between fragments in the tabbed view.
+     * @param position gets the int position associated with the fragment currently in view.
+     * @return the fragment to be shown.</pre>
      */
     @NonNull
     @Override
@@ -64,8 +65,8 @@ public class ViewPageAdapter extends FragmentPagerAdapter {
     }
 
     /**
-     * returns the amount of fragments and tabs to allow
-     * @return
+     * <pre>returns the amount of fragments and tabs shown
+     * @return the amount of tabs</pre>
      */
     @Override
     public int getCount() {
@@ -73,9 +74,9 @@ public class ViewPageAdapter extends FragmentPagerAdapter {
     }
 
     /**
-     * the method gets the title of the fragment based off the position and sets its name in the tabs bar
-     * @param position
-     * @return
+     * <pre>Method gets the title of the fragment based off the position and sets its name in the tabs bar
+     * @param position gets fragment positions
+     * @return returns name of frag at that position</pre>
      */
     @Override
     public CharSequence getPageTitle(int position) {

@@ -34,11 +34,11 @@ import java.util.ArrayList;
 
 
 /**
- * Images used are sourced from Public Domain Day 2019.
+ * <pre>Images used are sourced from Public Domain Day 2019.
  * by Duke Law School's Center for the Study of the Public Domain
  * is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License.
- *  - Images are stored on the Firebase DB and retrieved here in this fragment view
- *  - This Fragment class was adapted from the Assignment 4 project zip file
+ *      - Images are stored on the Firebase DB and retrieved here in this fragment view.
+ *      - This Fragment class was adapted from the Assignment 4 project zip file.
  *
  *  references:
  *         - https://developer.android.com/docs
@@ -50,7 +50,7 @@ import java.util.ArrayList;
  *
  * @author Colin Fleck - colin.fleck3@mail.dcu.ie
  * @version 1
- * @since
+ * @since</pre>
  */
 public class BookList extends Fragment {
     private static final String TAG = "BookList";
@@ -61,18 +61,18 @@ public class BookList extends Fragment {
     DatabaseReference db;
 
     /**
-     * empty constructor intializes view
+     * <pre>empty constructor initializes view</pre>
      */
     public BookList() {
         // Required empty public constructor
     }
 
     /**
-     * onCreateView method builds and inflates this fragment
-     * @param inflater sets the layout
-     * @param container creates a container for the fragment
-     * @param savedInstanceState
-     * @return the fragment view
+     * <pre>onCreateView method builds and inflates this fragment.
+     * @param inflater sets the layout.
+     * @param container creates a container for the fragment.
+     * @param savedInstanceState saves bundle.
+     * @return the fragment view.</pre>
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -97,12 +97,13 @@ public class BookList extends Fragment {
         db.addValueEventListener(new ValueEventListener() {
 
             /**
-             * OnDataChange method checks the database for any new data and updates
+             * <pre>OnDataChange method checks the database for any new data and updates
              * the bookDaata object with the current data
              * @param dataSnapshot takes a json snapshot of firebase db ref to book
              *
              *      ref: - https://www.youtube.com/watch?v=18Td7PH_1r8
              *           - SDA course text: CH. 16
+             *                     </pre>
              */
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -125,9 +126,9 @@ public class BookList extends Fragment {
             }
 
             /**
-             * method alerts user with db error if there was a
+             * <pre>Method alerts user with db error if there was a
              * problem receiving the data from the db
-             * @param databaseError
+             * @param databaseError provides user with Db error. Although none is specified here</pre>
              */
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

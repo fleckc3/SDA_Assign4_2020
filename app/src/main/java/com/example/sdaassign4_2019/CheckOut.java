@@ -51,18 +51,18 @@ import java.util.Date;
 import static java.time.LocalDate.parse;
 
 /**
- * Checkout class defines a view where user can select a date to order a specific book.
+ * <pre>Checkout class defines a view where user can select a date to order a specific book.
  * This view opens from the book recyclerView when a user clicks on the checkout button.
  * Data about that book is passed here to be used in the order details upon checkout.
  * A date selector provides the rest of the data for the order. The order is then sent to
- * firebase database with relevant data
+ * firebase database with relevant data.
  *
  * references:
  *        - https://developer.android.com/docs
  *        - https://firebase.google.com/docs
  *
  * @author Colin Fleck - colin.fleck3@mail.dcu.ie
- * @version 1
+ * @version 1</pre>
  */
 public class CheckOut extends AppCompatActivity {
     private static final String TAG = "CheckOut";
@@ -95,10 +95,10 @@ public class CheckOut extends AppCompatActivity {
     String sendOrderCheckKey = "SEND_ORDER_KEY";
 
     /**
-     *This onCreate method declares the textviews and buttons used to select a date and
-     * create an order that is saved in the DB. This view recieves data from the recyclerview
+     *<pre>This onCreate method declares the textviews and buttons used to select a date and
+     * create an order that is saved in the DB. This view recieies data from the recyclerView
      * according to which book item is chosen to checkout.
-     * @param savedInstanceState
+     * @param savedInstanceState passes saved bundle. </pre>
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,10 +204,10 @@ public class CheckOut extends AppCompatActivity {
                     newOrderRef.setValue((new Order(title, borrowerId, finalSelectedDate, currentDate, mReturnDate)),
                     new DatabaseReference.CompletionListener() {
                         /**
-                         * onComplete listener checks to make the data was successful inserted into
-                         * the DB
-                         * @param databaseError provides DB error occurred while trying to complete
-                         * @param databaseReference provides the reference to the db being listened to
+                         * <pre>onComplete listener checks to make the data was successful inserted into
+                         * the DB.
+                         * @param databaseError provides DB error occurred while trying to complete.
+                         * @param databaseReference provides the reference to the db being listened to.</pre>
                          */
                         @Override
                         public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
@@ -240,9 +240,9 @@ public class CheckOut extends AppCompatActivity {
     }
 
     /**
-     * This method invokes an android date picker with listener.
-     * @param v is the select date button that fires the method
-     * Method was adapted from source SDA_2019 android course examples ViewGroup demo
+     * <pre>This method invokes an android date picker with listener.
+     * @param v is the select date button that fires the method.
+     * Method was adapted from source SDA_2019 android course examples ViewGroup demo.</pre>
      */
     public void onDateClicked(View v) {
         DatePickerDialog.OnDateSetListener mDateListener = new DatePickerDialog.OnDateSetListener() {
@@ -318,7 +318,7 @@ public class CheckOut extends AppCompatActivity {
     }
 
     /**
-     * This method takes the date selected by the user and formulates the summary message
+     * <pre>This method takes the date selected by the user and formulates the summary message
      * based off what this date. A two week checkout maximum is set so a return date is
      * calculated from the selected date. SharedPreferences is invoked to get user name
      * and is for the summary message as well.
@@ -329,7 +329,7 @@ public class CheckOut extends AppCompatActivity {
      *                  * https://attacomsian.com/blog/java-convert-string-to-date
      *                  * https://www.javatpoint.com/java-get-current-date
      * @return selectedDate is used in a check statement for the onClick method called when a user
-     * presses the sendOrder button
+     * presses the sendOrder button.</pre>
      */
     private void updateDateAndTimeDisplay() {
 
@@ -368,8 +368,8 @@ public class CheckOut extends AppCompatActivity {
     }
 
     /**
-     * This method saves the summary message in case of screen rotation
-     * @param outState is loaded with summary message
+     * <pre>This method saves the summary message in case of screen rotation.
+     * @param outState is loaded with summary message.</pre>
      */
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -388,11 +388,11 @@ public class CheckOut extends AppCompatActivity {
     }
 
     /**
-     * This method used to get onSaveInstanceState after view restored from screen rotation.
-     * This is because of the fragment this activity was started from
+     * <pre>This method used to get onSaveInstanceState after view restored from screen rotation.
+     * This is because of the fragment this activity was started from.
      * reference: https://stackoverflow.com/questions/24075154/how-to-get-data-from-bundle-of-onsaveinstancestate-in-android
      *
-     * @param savedInstanceState gets the bundle saved from the onSaveInstanceState()
+     * @param savedInstanceState gets the bundle saved from the onSaveInstanceState().</pre>
      */
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {

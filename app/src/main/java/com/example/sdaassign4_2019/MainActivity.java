@@ -23,13 +23,13 @@ import android.os.Bundle;
 import com.google.android.material.tabs.TabLayout;
 
 /**
- * Main activity launches the app and sets up the fragment tabbed view.
+ * <pre></pre>Main activity launches the app and sets up the fragment tabbed view.
  * App opens with the welcome tab in the forefront.
  *
  * Adapted from the assignment 4 project zip folder
  *
  * @Author Colin Fleck - colin.fleck3@mail.dcu.ie
- * @version 1
+ * @version 1</pre>
  */
 public class MainActivity extends AppCompatActivity {
     public static final int BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT = 1;

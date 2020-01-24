@@ -12,11 +12,11 @@ import com.bumptech.glide.Glide;
 
 
 /**
- * A simple {@link Fragment} subclass. This is the welcome/landing page
- * for The lLearning Tree Book Club
+ * <pre>A simple {@link Fragment} subclass. This is the welcome/landing page
+ * for The lLearning Tree Book Club</p>
  *
- * @author Colin Fleck - colin.fleck3@mail.dcu.ie
- * @version 1
+ * <p>@author Colin Fleck - colin.fleck3@mail.dcu.ie
+ * @version 1</pre>
  */
 public class Welcome extends Fragment {
 
@@ -28,11 +28,11 @@ public class Welcome extends Fragment {
     }
 
     /**
-     * onCreateView inflates the fragment view for this welcome tab page
+     * <pre>onCreateView inflates the fragment view for this welcome tab page</p>
      * @param inflater inflates the layout
      * @param container creates the container that holds the fragment
-     * @param savedInstanceState
-     * @return
+     * param savedInstanceState bundle saved
+     * @return the fragment view</pre>
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

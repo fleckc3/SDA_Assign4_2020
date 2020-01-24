@@ -18,13 +18,13 @@ package com.example.sdaassign4_2019;
 
 
 /**
- * Order POJO class used for setting and getting order details in firebase db
+ * <pre>Order POJO class used for setting and getting order details in firebase db
  * references:
  *        - https://developer.android.com/docs
  *        - https://firebase.google.com/docs
  *
  * @author Colin Fleck - colin.fleck3@mail.dcu.ie
- * @version 1
+ * @version 1</pre>
  */
 public class Order {
 

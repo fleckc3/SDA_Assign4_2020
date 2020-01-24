@@ -47,9 +47,9 @@ import java.util.ArrayList;
 import static android.content.Context.MODE_PRIVATE;
 
 /**
- * LibraryViewAdapter receives the data from the firebase data based on Book object.
+ * <pre>LibraryViewAdapter receives the data from the firebase data based on Book object.
  * Book object is initialised and passed to recyclerView vie the BookList fragment.
- * This class was adapted from the Assignement 4 project zip folder.
+ * This class was adapted from the Assignment 4 project zip folder.
  *
  * references:
  *         - SDA course text
@@ -57,7 +57,7 @@ import static android.content.Context.MODE_PRIVATE;
  *         - https://firebase.google.com/docs
  *
  * @author Colin Fleck - colin.fleck3@mail.dcu.ie
- * @version 1
+ * @version 1</pre>
  */
 public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.ViewHolder> {
     private static final String TAG = "RecyclerViewAdapter";
@@ -74,11 +74,11 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
     }
 
     /**
-     * This method creates an individual viewHolder for each object passed
-     * into the recyclerView
-     * @param viewGroup creates the view container
-     * @param i determines how many views to make
-     * @return the view created for each object
+     * <pre>This method creates an individual viewHolder for each object passed
+     * into the recyclerView.
+     * @param viewGroup creates the view container.
+     * @param i determines how many views to make.
+     * @return the view created for each object.</pre>
      */
     @NonNull
     @Override
@@ -88,9 +88,9 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
     }
 
     /**
-     * This method binds the data to the viewHolders
-     * @param viewHolder holds the object data for each entry passed into the recyclerView
-     * @param position gets the position of the data in the object
+     * <pre>This method binds the data to the viewHolders.
+     * @param viewHolder holds the object data for each entry passed into the recyclerView.
+     * @param position gets the position of the data in the object.</pre>
      */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
@@ -161,8 +161,8 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
     }
 
     /**
-     * Gets the count of how many objects in bookdata object
-     * @return the count
+     * <pre>Gets the count of how many objects in bookdata object.
+     * @return the count</pre>
      */
     @Override
     public int getItemCount() {
@@ -171,9 +171,9 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
     }
 
     /**
-     * view holder class for recycler_list_item.xml
+     * <pre>view holder class for recycler_list_item.xml
      * declares UI elements to be used and initialized in each
-     * viewholder with data from DB.
+     * viewholder with data from DB.</pre>
      */
     class ViewHolder extends RecyclerView.ViewHolder{
 

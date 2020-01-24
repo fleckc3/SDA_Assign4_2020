@@ -35,7 +35,7 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * <pre>A simple {@link Fragment} subclass.
  * This fragment class provides three textviews where a user must enter their details
  * in order to check a book out. The user details are validated and saved to the apps
  * SharedPreferences.
@@ -46,7 +46,7 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
  *         - https://firebase.google.com/docs
  *
  * @author Colin Fleck - colin.fleck3@mail.dcu.ie
- * @version 1
+ * @version 1 </pre>
  */
 public class Settings extends Fragment {
 
@@ -63,11 +63,11 @@ public class Settings extends Fragment {
     }
 
     /**
-     * onCreateView inflates our fragment view
+     * <pre>onCreateView inflates our fragment view
      * @param inflater sets the fragment layout
      * @param container sets the container for the view
      * @param savedInstanceState gets the saved data called by the onSaveInstanceState()
-     * @return the completed fragment view
+     * @return the completed fragment view </pre>
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -264,12 +264,12 @@ public class Settings extends Fragment {
     }
 
     /**
-     *  isValidEmail checks the user email input to make sure it is in proper email format
+     *  <pre><isValidEmail checks the user email input to make sure it is in proper email format
      *  This method was adapted from the following ref:
      *      - https://stackoverflow.com/questions/12947620/email-address-validation-in-android-on-edittext
      *      -
      * @param email is passed from the email texview by the user input
-     * @return true if the string is in proper email format
+     * @return true if the string is in proper email format </pre>
      */
     public final static boolean isValidEmail(String email) {
         boolean validate;
@@ -285,9 +285,9 @@ public class Settings extends Fragment {
     }
 
     /**
-     * onSaveInstanceState method saves the user input in the textviews
+     * <pre>onSaveInstanceState method saves the user input in the textviews
      * in order for them to still be seen when the app is paused or rotated.
-     * @param outState bundle holds the user input data to be carried over when oncreate called again
+     * @param outState bundle holds the user input data to be carried over when oncreate called again</pre>
      */
     @Override
     public void onSaveInstanceState(Bundle outState){
